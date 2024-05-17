@@ -1,4 +1,6 @@
-# blackjackGame
-creating blackjack game using html/css/js
-direct link: https://bogpok.github.io/blackjackGame/
-[Main file is here](index.html)
+# Blackjack Game
+
+This was my first ever experience creating something with html/css/js stack back in 2020.
+[Try the game here](https://bogpok.github.io/blackjackGame/)
+
+
