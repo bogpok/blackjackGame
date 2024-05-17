@@ -5,14 +5,6 @@ class Player {
     }
 }
 
-// class Card {
-//     constructor() {
-//         this.points = 0;
-//         this.name = "";
-//     }
-// }
-
-
 let status_text;
 const user1 = new Player();
 const dealer = new Player();
