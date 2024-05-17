@@ -17,36 +17,31 @@ header {
     color: white;
 }
 
+table {
+    width:100%;
+}
+
+#kermitPic {
+    /* float: left; */
+    padding: 10px;
+    /* width: 55%; */
+    background-color: #f1f1f1;
+    text-align: center;  
+
+    
+}
+
 /* Create two columns/boxes that floats next to each other */
-nav {
-    float: left;
-    width: 45%;
-    height: 300px; 
+#action-menu {
+    /* float: left; */
+    /* width: 45%; */
+    
     text-align: center;
     background: #ccc;
     padding: 20px;
     
 }
 
-/* Style the list inside the menu */
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-table {
-    width:100%;
-}
-
-#kermitPic {
-    float: left;
-    padding: 10px;
-    width: 55%;
-    background-color: #f1f1f1;
-    text-align: center;  
-
-    height: 300px;
-}
 
 /* Clear floats after the columns */
 section:after {
@@ -73,7 +68,7 @@ img {
 }
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
-    nav, #kermitPic {
+    #action-menu, #kermitPic {
         width: 100%;
         height: auto;
     }

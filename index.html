@@ -1,333 +1,77 @@
-<!--
-Программа должна выводить текущее число очков и одну карту дилера
-кнопку взять карту, закончить, 
-потом выдавать сообщение о проигрыше и начинать заново игру
-	//-->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Black Jack</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Style the header */
-header {
-  background-color: #666;
-  padding: 30px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
-}
-
-/* Create two columns/boxes that floats next to each other */
-nav {
-  float: left;
-  width: 45%;
-  height: 300px; /* only for demonstration, should be removed */
-  text-align: center;
-  background: #ccc;
-  padding: 20px;
-  /*margin-left: 10px;*/
-}
-
-/* Style the list inside the menu */
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-kermitPic {
-  float: left;
-  padding: 10px;
-  width: 55%;
-  background-color: #f1f1f1;
-  text-align: center;
-  /*margin-right: 10px;*/
-
-  height: 300px; /* only for demonstration, should be removed  OK LOL*/
-}
-
-/* Clear floats after the columns */
-section:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Style the footer */
-footer {
-  background-color: #454;
-  padding: 10px;
-  text-align: center;
-  color: white;
-}
-img {
-  margin: 0;
-  position: relative;
-  top: 5%;
-  /*-ms-transform: translateY(-50%);*/
-  /*transform: translateY(-50%);*/
-  
-  width:60%;
-}
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-@media (max-width: 600px) {
-  nav, kermitPic {
-    width: 100%;
-    height: auto;
-  }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Jack</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="util.js"></script>
+    <script src="script.js"></script>
 </head>
+<body>
+    <header>
+        <h2>BLACKJACK CARD GAME</h2>
+    </header>
+    <div id='kermitPic'>
+        <img src="casino_kermit.jpg" alt="kermit here" >
+    </div>
+    <div id="action-menu">        
+        <table style = "background-color:rgba(199, 99, 71, 0.5)">
+            <tr>
+                <th colspan="3"><h2>Player:</h2></th>      
+            </tr>
+            <tr>
+                <th><i>Points:</i></th>
+                <th><i>Taken Card:</i></th>            
+            </tr>
+            <tr>
+                <th><p id="points"></p></th>
+                <th><p id="cardName"></p></th>
+            </tr>
+            <tr>
+                <th><button id="btn_start">Start Over</button></th>
+                <th><button id="btn_take">Hit</button><button id="btn_endgame">Stand</button></th>
+            </tr>
+            <tr>
+                <th><i>Status:</i></th>
+                <th><p id="stat"></p></th>
+            </tr>
+        </table>
 
-<body style = "background-color:rgba(80, 80, 120, 0.7); margin: 100px;">
+        <table style = "background-color:rgba(250, 80, 50, 0.5)">
+            <tr>
+                <th colspan="3"><h2>Dealer:</h2></th>      
+            </tr>
+            <tr>
+                <th>Card 1</th>
+                <th>Card 2</th>
+                <th>Card 3</th>
+            </tr>
+            <tr>
+                <th><p id="dealer1"></p></th>
+                <th><p id="dealer2"></p></th>
+                <th><p id="dealer3"></p></th>
+            </tr>
+        </table>
+        
+    </div>
 
+    <section>
+        
+        
+        
+    </section>
 
-<h2>Black Jack Card Game</h2>
-<i>Rules:</i>
-<p>You can see your current points value from the left. To take card press
-take card. ETC...</p>
+    <i>Rules:</i>
+    <p>Input our bet and press 'place the bet'</p>
+    <p>The dealer will give you and himself two cards each, but you can't see his second card. Natural blackjack = 10 card + Ace. If player has it (and dealer hasn't), he wins 1.5x . Otherwise it's a tie. You can ask for another card (Hit) or leave as is (Stand). </p>
+    <p>Aces rule: if in current hand you have ace and ask for more cards, if the draw creates a bust by counting Ace as 11 - count the Ace as 1.</p>
+    <p>Dealer: after you stand, the dealer shows you his second card. If his totals is 17 or more - it will stand. Otherwise the dealer will take more cards until he reaches 17 or more.</p>
+    <p>Bust: if you go more then 21 you're busted and lost your wager. If dealer goes over 21 or less then player, it pays the player 1x. </p>
 
-<header>
-  <h2>BLACKJACK CARD GAME</h2>
-</header>
-
-<section>
-  <nav>
-    <!--ul-->
-  <table style = "width:100%; background-color:rgba(199, 99, 71, 0.5)">
-	<tr>
-		<th><i>Points:</i></th>
-		<th><i>Taken Card:</i></th>
-	
-	</tr>
-	<tr>
-		<th><p id="points"></p></th>
-		<th><p id="cardName"></p></th>
-	</tr>
-	<tr>
-		<th><input type="button" onclick="startFresh()" value="Start Over"></th>
-		<th><input type="button" onclick="changePoint()" value="Take Card"></th>
-	</tr>
-	<tr>
-		<th><i>Status:</i></th>
-		<th><p id="stat"></p></th>
-	</tr>
-  </table>
-  <table style = "width:100%; background-color:rgba(250, 80, 50, 0.5)">
-    <tr>
-      <th colspan="3"><h2>Dealer:</h2></th>      
-    </tr>
-    <tr>
-      <th>Card 1</th>
-      <th>Card 2</th>
-      <th>Card 3</th>
-    </tr>
-    <tr>
-      <th><p id="dealer1"></p></th>
-      <th><p id="dealer2"></p></th>
-      <th><p id="dealer3"></p></th>
-    </tr>
-    <tr>
-      <th colspan="3" style = "padding: 10px;"><input 
-        type="button" onclick="quit()" value="End Game"></th>
-  </table>
-    <!--ul-->
-  </nav>
-  
-  <kermitPic>
-    <img src="casino_kermit.jpg" alt="kermit here" >
-  </kermitPic>
-</section>
-
-<footer>
-  <p>BJ card game by Bogdan Pokrepin</p>
-</footer>
-
-
-
-
-
-
-<script>
-	function getRanInt(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
- 		return Math.floor(Math.random() * (max - min + 1)) + min; 
-	} //Максимум и минимум включаются
-
-	function giveCard(){
-		var min = 0; var max = 12;
-    /* 2, 3, ..., 10, Jack, Queen, King, Ace
-    zero for 2 and 12 for Ace */
-    var card_id = getRanInt(min, max);
-		var value;       	 
-    	switch(card_id){
-    		case 0:
-        	case 1:
-        	case 2:
-        	case 3:
-        	case 4:
-        	case 5:
-        	case 6:
-        	case 7:
-        	case 8:
-            card_name = card_id + 2;
-            value = card_id + 2;
-            break;
-        case 9:
-            card_name = 'Jack'
-            value = 10
-            break;
-        case 10:
-            card_name = 'Queen'
-            value = 10
-            break;
-        case 11:
-            card_name = 'King'
-            value = 10
-            break;
-        case 12:
-            card_name = 'Ace'
-            if (point + 11 > 21) {
-                value = 1;
-            } else {
-                value = 11; 
-            }
-            break;    
-    	}
-		document.getElementById("cardName").innerHTML = card_name;
-
-		return value
-	}
-
-	function changePoint(){
-		point = point + giveCard()
-		document.getElementById("points").innerHTML = point;
-
-    if (Status != 'Playing'){
-      alert("Damn, boy\nStop taking cards and $tart a new game!!!!!"); 
-    } else {
-		  if (point > 21){
-		  	alert("The game is over! You lose...");	
-        Status = 'the game is over, you lose';
-		  	document.getElementById("stat").innerHTML = Status;					
-		  } else if (point == 21){
-		  	alert("You are an absolute winner!");
-        Status = 'You win! Game is over =)';				
-		  	document.getElementById("stat").innerHTML = Status;	
-		  }
-    }
-	}
-
-	function game(){
-		
-		document.getElementById("points").innerHTML = point;
-		document.getElementById("cardName").innerHTML = card_name;
-		document.getElementById("stat").innerHTML = Status;
-
-    dealerLogic()
-
-    
-	}
-
-  function dealerLogic(){
-    var min = 0; var max = 12;
-    /* 2, 3, ..., 10, Jack, Queen, King, Ace
-    zero for 2 and 12 for Ace */
-    var card_id;
-    var value;
-    var cardNameDealer = ['0', '0'];
-    for (var i = 0; i < 2; i++) {
-      card_id = getRanInt(min, max);
-      switch(card_id){
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-        cardNameDealer [i] = card_id + 2;
-        value = card_id + 2;
-        break;
-      case 9:
-        cardNameDealer [i] = 'Jack';
-        value = 10;
-        break;
-      case 10:
-        cardNameDealer [i] = 'Queen';
-        value = 10;
-        break;
-      case 11:
-        cardNameDealer [i] = 'King';
-        value = 10;
-        break;
-      case 12:
-        cardNameDealer [i] = 'Ace';
-          if (point + 11 > 21) {
-              value = 1;
-          } else {
-             value = 11; 
-          }
-          break;              
-      }
-      pointDealer += value;    
-    }
-    document.getElementById("dealer1").innerHTML = cardNameDealer [0];
-    document.getElementById("dealer2").innerHTML = 'facedown';
-    document.getElementById("dealer3").innerHTML = cardDealer;
-    cardDealer = cardNameDealer [1];
-  }
-
-	function startFresh(){
-		point = 0;
-		card_name = 'Nothing';
-		Status = 'Playing';
-
-    pointDealer = point;
-    cardDealer = 'Nothing';
-
-		game();
-	}
-
-  function quit(){
-    document.getElementById("dealer2").innerHTML = cardDealer;
-    if (point > pointDealer){
-      alert("You win, congratulations ^_^ ");
-      Status = 'You win! Game is over';
-
-    } else if (point < pointDealer ){
-      alert("You lose ... paying to dealer");
-      Status = 'Where is my money?';
-    } else {
-      alert("TIE, lol");
-      Status = 'Maybe it\'s a good idea to go home?';
-    }
-    document.getElementById("stat").innerHTML = Status;
-  }
-
-	var Status;
-	var point;
-	var card_name;
-
-  var pointDealer;
-  var cardDealer;
-
-	startFresh();
-	
-</script>
-
-
+    <footer>
+        <p>BJ card game by Bogdan Pokrepin</p>
+    </footer>
 
 </body>
 </html>
