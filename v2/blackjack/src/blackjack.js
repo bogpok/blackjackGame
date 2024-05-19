@@ -61,32 +61,18 @@ function calculateScore(cards) {
         let score = 0;
         cards.forEach(card=>{
             score += card.points;
-        })
-        //
+        })        
         const aces_n = (cards.filter(card => { return card.name==="A" })).length;
-        console.log('input card', cards)
-        console.log(aces_n, score)
-        if (score >= 21 && aces_n > 0) {
-            // if the draw creates a bust by counting Ace as 11 - 
-            // count the Ace as 1.
-            // const cards_updated = cards.map(card=>{
-            //     if (card.name==='A') {
-            //         card.points = 1;
-            //     }
-            //     return card;
-            // })
-            // console.log(cards_updated)
-            // return calculateScore(cards_updated);
-            console.log('yeah you got aces right')
+        if (score > 21 && aces_n > 0) {            
             score -= 10*aces_n;
-        }
-        //
+        }        
         return score;
     }
 }
 
 export default function Game() {
     let [inGame, setInGame] = useState(true);
+    let [player_wins, setPlayerWins] = useState(true);
 
     let initialstate = {};
     initialstate.cards = [new Card_t(), new Card_t()];
@@ -117,39 +103,55 @@ export default function Game() {
         newstate.cards = [...player.cards, new Card_t()];
         newstate.score = calculateScore(newstate.cards);
         setPlayer(newstate);
-
         
         setTimeout(()=>{
-            if (newstate.score >= 21) {
-                setInGame(false);
+            if (newstate.score >= 21) {                
+                setPlayerWins(newstate.score === 21); 
+                setInGame(false);               
             }
-        }, 200);
-
-        
+        }, 200);        
     }
 
     function stand() {
         console.log('player cards', player.cards);
+        
+        if (player.score === 21) {
+            setPlayerWins(true);
+        } else if (player.score > 21) {
+            setPlayerWins(false);
+        } else {
+            dealerhits();
+        }        
         setInGame(false);
-        dealerhits();
     }
     
     function dealerhits() {
         let dealer_score = dealer.score;
-        let dealer_cards = dealer.cards.slice();
+        const dealer_cards = [...dealer.cards];
         while (dealer_score < 17) {
             let taken_card = new Card_t();
             dealer_cards.push(taken_card);
             dealer_score = calculateScore(dealer_cards);
+        }        
+        const newdealer = {}
+        newdealer.cards = dealer_cards;
+        newdealer.score = dealer_score;
+        setDealer(newdealer)
+        
+        if (dealer_score > 21) {
+            setPlayerWins(true);
+        } else {
+            if (dealer_score === player.score) {
+                console.log('TIE')
+            } else if (dealer_score < player.score) {
+                setPlayerWins(true);
+            } else {
+                setPlayerWins(false);
+            }
         }
-        console.log('dealer cards', dealer_cards)
-        console.log('dealer points', dealer_score)
-        setDealer({
-            cards:dealer_cards,
-            score:dealer_score,
-        })
     }
 
+    // Generate cards
     function cardsOnBoard(cards) {
         const cardsBoard = [];
         let i=0;
@@ -163,8 +165,6 @@ export default function Game() {
     }
 
     
-    
-
     return (
         <div>
             <header>
@@ -219,7 +219,18 @@ export default function Game() {
                             </td>
                         </tr>        
                         <tr>
-                            <td colSpan="2">Stats: blah blah blah</td>
+                            <td colSpan="2">
+                                {inGame ? (
+                                    <>
+                                    Hit or stand?
+                                    </>
+                                ) : (
+                                    <>
+                                    {!player_wins ? (<h2 className='colored colored-lost'>LOST</h2>):(<h2 className='colored colored-win'>WIN</h2>)}
+                                    </>
+                                )}
+                                
+                            </td>
                         </tr>    
                     </tbody>         
                 </table>

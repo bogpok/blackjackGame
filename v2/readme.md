@@ -74,14 +74,8 @@ Happy hacking!
 
 # TODO
 
-Accurate score calculation (aces)
 When in the beginning it's already 21?
-
-stand.onclick:
-
-- comparison (who won)
 
 ## Features next
 - wagers, bets
 - animation of cards
-- WINNER label with animated text

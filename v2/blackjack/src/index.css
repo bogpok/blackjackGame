@@ -152,3 +152,30 @@ th, td {
   background-color: #352c8a;
   color: rgb(239, 236, 195);
 }
+
+.colored {  
+  background-clip: text; 
+  color: transparent;  
+}
+
+.colored-win {
+  animation: bg_win 2s ease-in-out infinite;
+}
+
+.colored-lost {
+  animation: bg_lost 2s ease-in-out infinite;
+}
+
+@keyframes bg_win {
+  0%    {background-color:#98DC23; left:0px; top:0px;}
+  33%   {background-color:#0c7e14; left:200px; top:200px;}
+  66%   {background-color:#dcd323; left:200px; top:200px;}
+  100%  {background-color:#98DC23; left:0px; top:200px;}  
+}
+
+@keyframes bg_lost {
+  0%    {background-color:#EE1177; left:0px; top:0px;}
+  33%   {background-color:#8811EE; left:200px; top:200px;}
+  66%   {background-color:#EE11E6; left:200px; top:200px;}
+  100%  {background-color:#EE1177; left:0px; top:200px;}  
+}
