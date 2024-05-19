@@ -16,19 +16,19 @@ class Card_t {
         let name;
         switch(card_id) {            
             case 9:
-                name = 'Jack';
+                name = 'J';
                 value = 10;
                 break;
             case 10:
-                name = 'Queen';
+                name = 'Q';
                 value = 10;
                 break;
             case 11:
-                name = 'King';
+                name = 'K';
                 value = 10;
                 break;
             case 12:
-                name = 'Ace';
+                name = 'A';
                 value = 11;
                 break;    
             default:
@@ -41,10 +41,10 @@ class Card_t {
     }
 }
 
-function Card() {
+function Card({text}) {
     return (
         <div className="pcard">
-            A
+            {text}
         </div>
     )
 }
@@ -55,17 +55,115 @@ function ActionBtn({ text, action }) {
     );
 }
 
-
+function calculateScore(cards) {
+    if (cards.length === 0) return 0;
+    else {
+        let score = 0;
+        cards.forEach(card=>{
+            score += card.points;
+        })
+        //
+        const aces_n = (cards.filter(card => { return card.name==="A" })).length;
+        console.log('input card', cards)
+        console.log(aces_n, score)
+        if (score >= 21 && aces_n > 0) {
+            // if the draw creates a bust by counting Ace as 11 - 
+            // count the Ace as 1.
+            // const cards_updated = cards.map(card=>{
+            //     if (card.name==='A') {
+            //         card.points = 1;
+            //     }
+            //     return card;
+            // })
+            // console.log(cards_updated)
+            // return calculateScore(cards_updated);
+            console.log('yeah you got aces right')
+            score -= 10*aces_n;
+        }
+        //
+        return score;
+    }
+}
 
 export default function Game() {
-    let [player, setPlayer] = useState({
-        score: 0,
-        cardName: "",
-    })
+    let [inGame, setInGame] = useState(true);
+
+    let initialstate = {};
+    initialstate.cards = [new Card_t(), new Card_t()];
+    initialstate.score = calculateScore(initialstate.cards);
+    let [player, setPlayer] = useState(initialstate)
+
+    let initialdealer = {};
+    initialdealer.cards = [new Card_t(), new Card_t()]
+    initialdealer.score = calculateScore(initialdealer.cards);
+    let [dealer, setDealer] = useState(initialdealer);
 
     function start() {
+        let newstate = {};
+        newstate.cards = [new Card_t(), new Card_t()];
+        newstate.score = calculateScore(newstate.cards);
+        setPlayer(newstate);
 
+        initialdealer = {};
+        initialdealer.cards = [new Card_t(), new Card_t()]
+        initialdealer.score = calculateScore(initialdealer.cards);
+        setDealer(initialdealer);
+
+        setInGame(true);
     }
+
+    function hit() {
+        let newstate = {};
+        newstate.cards = [...player.cards, new Card_t()];
+        newstate.score = calculateScore(newstate.cards);
+        setPlayer(newstate);
+
+        
+        setTimeout(()=>{
+            if (newstate.score >= 21) {
+                setInGame(false);
+            }
+        }, 200);
+
+        
+    }
+
+    function stand() {
+        console.log('player cards', player.cards);
+        setInGame(false);
+        dealerhits();
+    }
+    
+    function dealerhits() {
+        let dealer_score = dealer.score;
+        let dealer_cards = dealer.cards.slice();
+        while (dealer_score < 17) {
+            let taken_card = new Card_t();
+            dealer_cards.push(taken_card);
+            dealer_score = calculateScore(dealer_cards);
+        }
+        console.log('dealer cards', dealer_cards)
+        console.log('dealer points', dealer_score)
+        setDealer({
+            cards:dealer_cards,
+            score:dealer_score,
+        })
+    }
+
+    function cardsOnBoard(cards) {
+        const cardsBoard = [];
+        let i=0;
+        cards.forEach(card=>{
+            cardsBoard.push(
+                <Card key={i} text={card.name}/>
+            )
+            i++;
+        })
+        return cardsBoard;
+    }
+
+    
+    
 
     return (
         <div>
@@ -85,22 +183,38 @@ export default function Game() {
                         <tr>
                             <td className="deals" id="player-deals">
                                 <div className="cards">
-                                    <Card />
-                                    <Card />
+                                    {cardsOnBoard(player.cards)}
                                 </div>
                                 <div>
-                                    Your score: 25
+                                    Your score: {player.score}
                                 </div>
                                 <div className="actions">
-                                    <ActionBtn text={"Start over"}/>
-                                    <ActionBtn text={"Hit"}/>
-                                    <ActionBtn text={"Stand"}/>
+                                    {inGame ? (
+                                        <>
+                                        <ActionBtn text={"Hit"} action={hit}/>
+                                        <ActionBtn text={"Stand"} action={stand}/>
+                                        </>
+                                    ) : (
+                                        <ActionBtn text={"Start over"} action={start}/>
+                                    )}      
                                 </div>
                             </td>
+
                             <td className="deals" id="dealer-deals">
                                 <div className="cards">
-                                    <Card />
-                                    <Card />
+                                    {inGame ? (
+                                        <>
+                                        {cardsOnBoard([dealer.cards[0]])}
+                                        <div className="pcard pcard-cover"></div>
+                                        </>
+                                    ) : (<>
+                                        {cardsOnBoard(dealer.cards)}
+                                        
+                                        <div>
+                                            {dealer.score}
+                                        </div>
+                                        </>
+                                    )}
                                 </div>
                             </td>
                         </tr>        

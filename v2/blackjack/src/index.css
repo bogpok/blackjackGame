@@ -106,6 +106,7 @@ th, td {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .pcard {
@@ -117,9 +118,9 @@ th, td {
   border-radius: 12%;
   color: black;
 
-  height: 40px;
-  line-height: 40px;
-  width: 30px;
+  height: 60px;
+  line-height: 60px;
+  width: 50px;
   text-align: center;
   box-shadow: 1px 1px #042917;
   text-shadow: 1px 1px #a49bd6;
@@ -127,12 +128,6 @@ th, td {
 
 .pcard-cover {
   background: #150e55;
-}
-
-.cards:after {
-  clear: both;
-  content: '';
-  display: table;
 }
 
 .actions {
@@ -148,6 +143,8 @@ th, td {
 
   border-radius: 10px;
   border: 2px solid #28342a;
+
+  min-width: 60px;
 }
 
 .btn-action:hover {
