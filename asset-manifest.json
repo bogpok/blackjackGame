@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/blackjackGame/static/css/main.101cb80e.css",
+    "main.js": "/blackjackGame/static/js/main.8aa992a8.js",
+    "static/js/453.153b9bbd.chunk.js": "/blackjackGame/static/js/453.153b9bbd.chunk.js",
+    "static/media/casino_kermit.jpg": "/blackjackGame/static/media/casino_kermit.e48ce883c2d9fa651cd0.jpg",
+    "static/media/logo.svg": "/blackjackGame/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/blackjackGame/index.html",
+    "main.101cb80e.css.map": "/blackjackGame/static/css/main.101cb80e.css.map",
+    "main.8aa992a8.js.map": "/blackjackGame/static/js/main.8aa992a8.js.map",
+    "453.153b9bbd.chunk.js.map": "/blackjackGame/static/js/453.153b9bbd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.101cb80e.css",
+    "static/js/main.8aa992a8.js"
+  ]
+}
